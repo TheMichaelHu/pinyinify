@@ -5,10 +5,10 @@
   "description": "This extension replaces all Chinese characters with pinyin",
   "version": "1.0",
   "content_scripts": 
-  [
-    {
-      "matches": ["*://*/*"],
-      "js": ["contentscript.js"]
-    }
-  ]
+    [
+      {
+        "matches": ["*://*/*"],
+        "js": ["contentscript.js"]
+      }
+    ]
 }
