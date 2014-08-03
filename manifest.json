@@ -8,7 +8,10 @@
     [
       {
         "matches": ["*://*/*"],
-        "js": ["contentscript.js"]
+        "js": ["contentscript.js"],
+        "run_at": "document_end",
+        "all_frames": true
       }
-    ]
+    ],
+  "offline_enabled": true
 }
