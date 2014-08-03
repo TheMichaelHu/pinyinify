@@ -1,5 +1,5 @@
 var data = loadData();
-walk(document.body);
+walk(document);
 
 function walk(node) 
 {
@@ -39,26 +39,26 @@ function handleText(textNode)
 {
 	var v = textNode.nodeValue;
 	var str = ""
-	var prevChanged = false;
 
 	for(var i = 0; i < v.length; i++) {
-		newText = pinyinify(v.charAt(i), prevChanged);
-		prevChanged = v.charAt(i) !== newText;
+		newText = pinyinify(v.charAt(i), v.charAt(i+1));
 		str += newText;
 	}
 	textNode.nodeValue = str;
 }
 
-function pinyinify(c, prevChanged) {
+function pinyinify(c, next) {
 	var hex = c.charCodeAt(0).toString(16);
 	var result = data[hex];
-	if(result === undefined) {
-		return c;
+	var isHanZiNext = data[next.charCodeAt(0).toString(16)] !== undefined;
+	if(next !== undefined 
+		&& ((result !== undefined && (/\w/.test(next) || isHanZiNext)) || (/\w/.test(c) && isHanZiNext))) {
+		if(result === undefined) {
+			return c + " ";
+		}
+		result += " ";
 	}
-	if(result !== c && prevChanged) {
-		result = " " + result;
-	}
-	return result;
+	return result === undefined?c:result;
 }
 
 // I hate everything.
