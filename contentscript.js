@@ -7,20 +7,30 @@ function walk(node)
 
 	switch ( node.nodeType )  
 	{
-		case 1:  // Element
-		case 9:  // Document
-		case 11: // Document fragment
+		// case 1:  // Element
+		// case 9:  // Document
+		// case 11: // Document fragment
+		// 	child = node.firstChild;
+		// 	console.log(child);
+		// 	while ( child ) 
+		// 	{
+		// 		next = child.nextSibling;
+		// 		walk(child);
+		// 		child = next;
+		// 	}
+		// 	break;
+		case 3: // Text node
+			handleText(node);
+			break;
+		default:
 			child = node.firstChild;
+			// console.log(child);
 			while ( child ) 
 			{
 				next = child.nextSibling;
 				walk(child);
 				child = next;
 			}
-			break;
-
-		case 3: // Text node
-			handleText(node);
 			break;
 	}
 }
@@ -29,17 +39,26 @@ function handleText(textNode)
 {
 	var v = textNode.nodeValue;
 	var str = ""
+	var prevChanged = false;
 
 	for(var i = 0; i < v.length; i++) {
-		str += pinyinify(v.charAt(i));
+		newText = pinyinify(v.charAt(i), prevChanged);
+		prevChanged = v.charAt(i) !== newText;
+		str += newText;
 	}
 	textNode.nodeValue = str;
 }
 
-function pinyinify(c) {
+function pinyinify(c, prevChanged) {
 	var hex = c.charCodeAt(0).toString(16);
 	var result = data[hex];
-	return result === undefined?c:result;
+	if(result === undefined) {
+		return c;
+	}
+	if(result !== c && prevChanged) {
+		result = " " + result;
+	}
+	return result;
 }
 
 // I hate everything.
@@ -41264,7 +41283,7 @@ function loadData() {
 		str = str.replace(/^[ \t]+/g, "");
 		var hex = str.split(" ")[0];
 		var pinyin = str.split(" ")[1];
-		map[hex] = pinyin + " ";
+		map[hex] = pinyin;
 	}
 	return map;
 }
