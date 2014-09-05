@@ -1,5 +1,5 @@
 var data = loadData();
-walk(document);
+setInterval(function() {walk(document)}, 3000);
 
 function walk(node) 
 {
@@ -7,24 +7,11 @@ function walk(node)
 
 	switch ( node.nodeType )  
 	{
-		// case 1:  // Element
-		// case 9:  // Document
-		// case 11: // Document fragment
-		// 	child = node.firstChild;
-		// 	console.log(child);
-		// 	while ( child ) 
-		// 	{
-		// 		next = child.nextSibling;
-		// 		walk(child);
-		// 		child = next;
-		// 	}
-		// 	break;
 		case 3: // Text node
 			handleText(node);
 			break;
 		default:
 			child = node.firstChild;
-			// console.log(child);
 			while ( child ) 
 			{
 				next = child.nextSibling;

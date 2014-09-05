@@ -3,7 +3,12 @@
 
   "name": "Pinyinify",
   "description": "This extension replaces all Chinese characters with pinyin",
-  "version": "1.0",
+  "version": "1.2",
+  "icons": { 
+    "16": "img/tray_icon16.png",
+    "48": "img/tray_icon48.png",
+    "128": "img/tray_icon128.png" 
+  },
   "content_scripts": 
     [
       {
