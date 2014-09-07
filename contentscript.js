@@ -1,14 +1,44 @@
 var data = loadData();
-setInterval(function() {walk(document)}, 3000);
+var prevDomLength = 0;
+walk(document);
+setInterval(
+	function() {
+		if(getDomLength(document) !== prevDomLength) {
+			walk(document);
+			prevDomLength = getDomLength(document);
+		}
+	}, 3000);
 
-function walk(node) 
+function getDomLength(node) 
 {
 	var child, next;
+	var domLength = 0;
 
 	switch ( node.nodeType )  
 	{
 		case 3: // Text node
-			handleText(node);
+			return 1;
+		default:
+			child = node.firstChild;
+			while ( child ) 
+			{
+				next = child.nextSibling;
+				domLength += getDomLength(child);
+				child = next;
+			}
+			return domLength;
+	}
+}
+
+function walk(node) 
+{
+	var child, next;
+	var domLength = 0;
+
+	switch ( node.nodeType )  
+	{
+		case 3: // Text node
+			domLength += handleText(node);
 			break;
 		default:
 			child = node.firstChild;
@@ -32,6 +62,7 @@ function handleText(textNode)
 		str += newText;
 	}
 	textNode.nodeValue = str;
+	return str.length;
 }
 
 function pinyinify(c, next) {
