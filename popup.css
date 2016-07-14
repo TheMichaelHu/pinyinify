@@ -1,0 +1,19 @@
+#toggle-button {
+  padding: 6px 12px;
+  font-size: 1rem;
+  font-weight: 400;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: #ffffff;
+}
+
+.enabled {
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+
+.disabled {
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}

@@ -6,7 +6,7 @@ chrome.storage.sync.get("pinyinifyEnabled", function(items){
 	enabled = items["pinyinifyEnabled"];
 	if(enabled == undefined) {
 		enabled = true;
-		chrome.storage.sync.set({ "pinyinifyEnabled": "true" });
+		chrome.storage.sync.set({ "pinyinifyEnabled": true });
 	}
 
 	if(enabled) {
@@ -93,16 +93,11 @@ function pinyinify(c, next) {
 }
 
 chrome.runtime.onMessage.addListener(function onMessage(request, sender, sendResponse) {
-  if (request.action == 'enable') {
-  	console.log("enabled");
-    enabled = true;
-    chrome.storage.sync.set({ "pinyinifyEnabled": true });
-  } else if (request.action == 'disable') {
-  	console.log("disabled");
-    enabled = false;
-    chrome.storage.sync.set({ "pinyinifyEnabled": false });
-	}
-
-   sendResponse({});
+  enabled = request.action == 'enable';
+	chrome.storage.sync.set({ "pinyinifyEnabled": enabled });
+  sendResponse({});
+  if(enabled) {
+  	walk(document);
+  }
 });
 
